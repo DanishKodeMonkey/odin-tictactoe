@@ -1,0 +1,45 @@
+body{
+    margin:0;
+    padding:0;
+}
+
+.container{
+    background-color: grey;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    >h1{
+        background-color: blue;
+        color: white;
+        width: 500px;
+        height: 50px;
+        text-align: center;
+    }
+}
+.game-container{
+    background-color: antiquewhite;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    height: 50%;
+    width: 50%;
+    overflow: hidden;
+    >.turn{
+        font-size: clamp(5px, 3vw, 80px)}
+        
+}
+.board{
+    border: 2px solid black;
+    display: grid;
+    width: 40%;
+    height:40%;
+    grid-template: 1fr 1fr 1fr / 1fr 1fr 1fr;
+
+    >.cell{
+        color: white;
+        background-color: rgb(41, 41, 41);
+        font-size: 4vw;
+    }
+}

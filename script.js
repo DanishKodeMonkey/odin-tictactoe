@@ -19,6 +19,10 @@ Clean up interface to allow players to put in their names, include a button to s
   display that shows the current active player, or a winner if conditions are met.
 */
 
+/* =========================================== */
+/* ============= Game logic below ============ */
+/* =========================================== */
+
 // gameBoard handles the board state, creating the board and maintaining it.
 const gameBoard = () => {
   // Game board settings
@@ -164,22 +168,69 @@ function gameController(
     }
   }
   printBoardRound()
-  return { playRound, currentPlayer }
+
+  return { playRound, currentPlayer, getBoard: board.getBoard, checkWinState }
 }
 
-// Simulated game for testing
-function game() {
-  // Example usage:
-  const ticTacToe = gameController("Alice", "Joe")
+/* =========================================== */
+/* ============== UI logic below ============= */
+/* =========================================== */
 
-  // Simulate some rounds for testing
-  ticTacToe.playRound(0)
-  ticTacToe.playRound(4)
-  ticTacToe.playRound(1)
-  ticTacToe.playRound(3)
-  ticTacToe.playRound(8)
-  ticTacToe.playRound(5)
+// Main screen controller that handles the UI and interaction with it.
+const screenController = () => {
+  const game = gameController()
+  const playerTurnDiv = document.querySelector(".turn")
+  const boardDiv = document.querySelector(".board")
+
+  //Method handling updating of the screen
+  const updateScreen = () => {
+    // clear the screen
+    boardDiv.textContent = ""
+
+    // Get updated version of board from gameController and player turn
+    const board = game.getBoard()
+    const activePlayer = game.currentPlayer()
+
+    // Update display for players turn
+    if (game.checkWinState()) {
+      playerTurnDiv.textContent = `${activePlayer.name} wins!`
+    } else {
+      playerTurnDiv.textContent = `${activePlayer.name}'s turn.`
+    }
+
+    // Render board squares from board array
+    board.forEach((cell, index) => {
+      const cellButton = document.createElement("button")
+      cellButton.classList.add("cell")
+      // Associate column position with index for easy ID later on
+      cellButton.dataset.cell = index
+      // Fill button with cells value (X or O)
+      cellButton.textContent = cell.getValue()
+      boardDiv.appendChild(cellButton)
+    })
+  }
+
+  // event listener handler for the board
+  function clickHandler(e) {
+    // if winState is true, no function
+    if (game.checkWinState()) {
+      return
+    } else {
+      //get column id from before
+      const selectedCell = e.target.dataset.cell
+
+      // If a button was not clicked, or mis-clicked. Return.
+      if (!selectedCell) return
+
+      game.playRound(selectedCell)
+      updateScreen()
+    }
+  }
+  boardDiv.addEventListener("click", clickHandler)
+
+  //initial render
+  updateScreen()
 }
 
-// Start the game
-game()
+// initiate the game through screenController
+screenController()
