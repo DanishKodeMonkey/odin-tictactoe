@@ -15,25 +15,19 @@ A game logic controller
 // gameBoard handles the board state, creating the board and maintaining it.
 const gameBoard = () => {
   // Game board settings
-  const rows = 3
-  const columns = 3
+  // size of square grid
+  const size = 3
+  //Form linear array, fill each index with a cell()
   const board = []
-  // Establish game board (Rows and columns)
-  // handle establishment of rows, update array.
-  for (let i = 0; i < rows; i++) {
-    board[i] = []
-    //For each row, create a corresponding column, update each row in array with a cell.
-    for (let j = 0; j < columns; j++) {
-      board[i].push(cell())
-    }
+  for (let i = 0; i < size * size; i++) {
+    board.push(cell())
   }
-  const getBoard = () => board
   //We now have a 3x3 grid gameboard.
 
   //A function to check if a cell is available, using its methods, if it is, add player token
-  // The function is used by calling the location(row, col) of the array, and the players token
-  const placeCell = (row, col, playerToken) => {
-    const targetCell = board[row][col]
+  // The function is used by calling the location(index) of the array, and the players token
+  const placeCell = (index, playerToken) => {
+    const targetCell = board[index]
     if (targetCell.getValue() === "") {
       targetCell.addToken(playerToken)
       return true
@@ -42,14 +36,16 @@ const gameBoard = () => {
     }
   }
 
-  // Print the board with it's cells values, tempoary until UI is created.
+  // Print the board in a 3 x 3 grid, showing each grid index cells value. (for console part)
   const printBoard = () => {
-    const boardWithCellValues = board.map((row) =>
-      row.map((cell) => cell.getValue())
-    )
-    console.log(boardWithCellValues)
+    for (let i = 0; i < size; i++) {
+      let rowValues = board
+        .slice(i * size, (i + 1) * size)
+        .map((cell) => cell.getValue())
+      console.log(rowValues)
+    }
   }
-
+  const getBoard = () => board
   return { getBoard, placeCell, printBoard }
 }
 
@@ -84,11 +80,9 @@ function gameController(
     [0, 1, 2],
     [3, 4, 5],
     [6, 7, 8],
-    // Columns
     [0, 3, 6],
     [1, 4, 7],
     [2, 5, 8],
-    // Diagonals
     [0, 4, 8],
     [2, 4, 6],
   ]
@@ -115,7 +109,6 @@ function gameController(
   // Print current state of board, and announce next player
   const printBoardRound = () => {
     board.printBoard()
-    console.log(`${currentPlayer().name}'s turn`)
   }
   // Check if a win state has been reached
   const checkWinState = () => {
@@ -135,9 +128,9 @@ function gameController(
       , for xample, if position a is 5, then Math.floor(5 / 3) results in 1(row index)
       and 5 % 3 results in 2 (column index)
       */
-      const valueA = currentBoard[Math.floor(a / 3)][a % 3].getValue()
-      const valueB = currentBoard[Math.floor(b / 3)][b % 3].getValue()
-      const valueC = currentBoard[Math.floor(c / 3)][c % 3].getValue()
+      const valueA = currentBoard[a].getValue()
+      const valueB = currentBoard[b].getValue()
+      const valueC = currentBoard[c].getValue()
 
       // Check if all three values are the same, and not empty
       if (valueA !== "" && valueA === valueB && valueA == valueC) {
@@ -147,14 +140,14 @@ function gameController(
     // if no win state has been found. Keep going.
     return false
   }
-  const playRound = (row, col) => {
-    board.printBoard()
+  const playRound = (index) => {
     console.log(`${currentPlayer().name}'s turn`)
 
-    //Console only
-    if (board.placeCell(row, col, currentPlayer().token)) {
+    //Console state round
+    if (board.placeCell(index, currentPlayer().token)) {
       if (checkWinState()) {
         console.log(`${currentPlayer().name} wins!`)
+        board.printBoard()
       } else {
         nextTurn()
         printBoardRound()
@@ -167,20 +160,18 @@ function gameController(
   return { playRound, currentPlayer }
 }
 
-//Simulated game for testing
+// Simulated game for testing
 function game() {
   // Example usage:
   const ticTacToe = gameController("Alice", "Joe")
 
   // Simulate some rounds for testing
-  ticTacToe.playRound(0, 0)
-  ticTacToe.playRound(1, 1)
-  ticTacToe.playRound(0, 1)
-  ticTacToe.playRound(1, 0)
-  ticTacToe.playRound(2, 2)
-  // Try placing in an already occupied cell
-  ticTacToe.playRound(2, 0)
-  ticTacToe.playRound(0, 2)
+  ticTacToe.playRound(0)
+  ticTacToe.playRound(4)
+  ticTacToe.playRound(1)
+  ticTacToe.playRound(3)
+  ticTacToe.playRound(8)
+  ticTacToe.playRound(5)
 }
 
 // Start the game
