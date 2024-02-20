@@ -250,7 +250,7 @@ const initiator = (function () {
     submitBtn.addEventListener("click", init)
     cancelBtn.addEventListener("click", (e) => {
       e.preventDefault()
-      dialog(close)
+      dialog.close()
     })
   }
 
