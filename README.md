@@ -18,7 +18,7 @@ Start by creating the game to be fully functional in the console, without thinki
 
 Once the game is working in console, a seperate object should handle displaying the game, and handling the DOM logic. Creating functionality to allow players to add Xs and Os to the UI, having it communicate with the script behind the scenes.
 
-### The console parts
+## Part 1: The console parts
 
 #### For the sake of documentation
 
@@ -61,3 +61,21 @@ Finally, I simulated some moves invoking the game controller with two player nam
 I basically simulate the inputs that will be made by the UI later on.
 
 ![simulated game](./images/console-sim-game.png)
+
+## Part 2: The UI
+
+With a functional game logic, all the remains
+is to create a neat UI layout, and tie
+the UI elements to the appropriate game logic.
+
+In this case, the game starts with a single button "start" in the middle of the screen.
+
+Pressing the start button calls up a dialog modul, that allows the players to insert their names (or dont for default names).
+
+This doesn't sound so cool so far, but the magic happens in a somewhat unassuming button "submit", clicking this button triggers a function init(tialise) that assigns the player names if any has been given, and initialises the screenController with the names as arguments.
+
+The screen controller then initialises the game logic, and both sides start establishing the game board, both on the game logic side, and the UI side. From here the modul has done it's part and goes away, and the game can commence!
+
+# Try it out!
+
+[As usual, give it a shot youself!](https://danishkodemonkey.github.io/odin-tictactoe/)
