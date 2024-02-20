@@ -16,9 +16,43 @@
   <body>
     <div class="container">
       <h1>Tic Tac Toe!</h1>
+      <dialog id="dialog">
+        <form method="dialog">
+          <label for="dialog">Enter player names:</label>
+
+          <div class="inputs">
+            <input
+              type="text"
+              name="playerOneName"
+              id="playerOneName"
+              placeholder="Player one"
+              required
+              autofocus />
+            VS.
+            <input
+              type="text"
+              name="playerTwoName"
+              id="playerTwoName"
+              placeholder="Player two"
+              required />
+          </div>
+
+          <div class="buttons">
+            <input
+              type="submit"
+              id="submit"
+              value="submit" />
+            <input
+              type="submit"
+              id="cancel"
+              value="cancel" />
+          </div>
+        </form>
+      </dialog>
       <div class="game-container">
-        <h1 class="turn">Player turn</h1>
+        <h1 class="turn">Welcome! <br / >Lets battle!</h1>
         <div class="board"></div>
+        <button class="initiator-button">Start</button>
       </div>
     </div>
   </body>

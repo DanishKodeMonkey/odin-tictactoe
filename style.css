@@ -13,9 +13,11 @@ body{
     >h1{
         background-color: blue;
         color: white;
-        width: 500px;
-        height: 50px;
+        width: 50%;
         text-align: center;
+        border: 5px double black;
+        border-radius: 10px;
+        font-size: 4vw;
     }
 }
 .game-container{
@@ -23,21 +25,94 @@ body{
     display:flex;
     flex-direction: column;
     align-items: center;
-    height: 50%;
+    height: 35vw;
     width: 50%;
     overflow: hidden;
+    border: 10px double black;
+    border-radius: 20px;
     >.turn{
         font-size: clamp(5px, 3vw, 80px)}
-        
+    >.initiator-button{
+        font-size: 3vw;
+        margin: 5%;
+        padding: clamp(2px, 5%, 10px);
+        background-color: rgb(6, 94, 6);
+        color: white;
+        border: 2px solid black;
+        border-radius: 20px;
+        transition: 100ms ease-in-out;
+        :hover{background-color: rgb(9, 148, 9);}
+        :active{background-color: rgb(3, 49, 3);}
+    }
+     >.initiator-button:hover{background-color: rgb(9, 148, 9);}  
+     >.initiator-button:active{background-color: rgb(3, 49, 3);}
 }
+#dialog{
+    background-color: darkgray;
+    border: 20px double black;
+    border-radius: 50px;
+    >form{
+    width: 30vw;
+    height: 30vh;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    >label{
+        width: 95%;
+        margin: 2%;
+        background-color: gold; 
+        color: antiquewhite;
+        text-align: center;
+        text-shadow: 2px 2px 2px black;
+        border: 8px double black;
+        border-radius: 20px;
+        font-size: 2vw;
+        padding: 2%;  
+    }
+    >.inputs{
+        background-color: silver;
+        border: 8px double black;
+        border-radius: 10px ;
+        display: flex;
+        gap: 5px;
+        font-size: 2vw;
+        padding: 10px;
+        >input{
+            height: 50px;
+            width: 100%;
+            font-size: 2vw;
+            text-align: center;
+            border: 2px solid black;
+            border-radius: 10px;
+        }
+    }
+    >.buttons{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-top:2%;
+        >input{
+            width: 30%;
+            font-size: 1.5vw;
+            border-radius: 10px;
+        }
+    }
+
+}}
+::backdrop {
+    background-color: black;
+    opacity: 0.5;
+  }
+
 .board{
-    border: 2px solid black;
     display: grid;
-    width: 40%;
-    height:40%;
     grid-template: 1fr 1fr 1fr / 1fr 1fr 1fr;
 
     >.cell{
+        width:1.2em;
+        height: 1.2em;
         color: white;
         background-color: rgb(41, 41, 41);
         font-size: 4vw;

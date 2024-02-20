@@ -177,8 +177,8 @@ function gameController(
 /* =========================================== */
 
 // Main screen controller that handles the UI and interaction with it.
-const screenController = () => {
-  const game = gameController()
+const screenController = (playerOne, playerTwo) => {
+  const game = gameController(playerOne, playerTwo)
   const playerTurnDiv = document.querySelector(".turn")
   const boardDiv = document.querySelector(".board")
 
@@ -228,9 +228,46 @@ const screenController = () => {
   }
   boardDiv.addEventListener("click", clickHandler)
 
-  //initial render
+  // update render
   updateScreen()
 }
 
-// initiate the game through screenController
-screenController()
+// Initiator, starts/restarts the game
+const initiator = (function () {
+  const boardDiv = document.querySelector(".board")
+  const dialog = document.getElementById("dialog")
+  const initBtn = document.querySelector(".initiator-button")
+  const submitBtn = dialog.querySelector("#submit")
+  const cancelBtn = dialog.querySelector("#cancel")
+  const players = dialog.querySelectorAll("input[type = 'text']")
+
+  function showModal() {
+    if (boardDiv !== "") {
+      initBtn.textContent = "Restart"
+    }
+    dialog.showModal()
+
+    submitBtn.addEventListener("click", init)
+    cancelBtn.addEventListener("click", (e) => {
+      e.preventDefault()
+      dialog(close)
+    })
+  }
+
+  // start/restart function
+  function init(e) {
+    e.preventDefault()
+    let playerOne = "Player one"
+    let playerTwo = "Player two"
+    if (players[0].value !== "") {
+      playerOne = players[0].value.trim()
+    }
+    if (players[1].value !== "") {
+      playerTwo = players[1].value.trim()
+    }
+
+    screenController(playerOne, playerTwo)
+    dialog.close()
+  }
+  initBtn.addEventListener("click", showModal)
+})()
