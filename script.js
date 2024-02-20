@@ -1,17 +1,24 @@
 /* REMEMBER, keep the project in factories, no globals(or atleast only 1) allowed */
-/* 
-What components are required for the game?
-A game board - somewhere to form the grid
-    a 3 x 3 grid of squares
-    
-    (*)
-    Added to own factory. Each cell now has methods and properties.
-    each square should have a cell that can handle a player piece X or O
+/* UI overhaaul
 
-A game logic controller
-    handle state of game (score?)
-    handle player objects and their state? Seperate?
+Object factory will handle display/DOM logic.
+  Include function to render gameBoard array to the webpage. 
+    divs created in for loops, then displayed in grid?
+    (just filled with xs and os for now)
+
+Write functions that allow players to mark a specific psot on the boardd by interacting
+with appropriate dom elements.
+  Create event listeners(click) and assign them to the divs.
+
+Clean up interface to allow players to put in their names, include a button to start/restart game
+  Start/restart button should create modus that accepts two inputs (player1 player2)
+      Check if ongoing game is going on, if so, clear everything
+    once submitted, invoke gameController(player1, player2)
+    render gameBoard using DOM manipulation object
+    change text of button to restart
+  display that shows the current active player, or a winner if conditions are met.
 */
+
 // gameBoard handles the board state, creating the board and maintaining it.
 const gameBoard = () => {
   // Game board settings
