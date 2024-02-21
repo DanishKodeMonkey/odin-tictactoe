@@ -56,8 +56,11 @@ const gameBoard = () => {
       console.log(rowValues)
     }
   }
+  const clearBoard = () => {
+    board.forEach((cell) => cell.addToken(""))
+  }
   const getBoard = () => board
-  return { getBoard, placeCell, printBoard }
+  return { getBoard, placeCell, printBoard, clearBoard }
 }
 
 // Cell will be representing the individual cells within the gameboard,
@@ -126,9 +129,9 @@ function gameController(
     // Get the current state of the board for check
     const currentBoard = board.getBoard()
 
-    // Itterate through each win condition in the winConditions array
+    // Iterate through each win condition in the winConditions array
     for (const condition of winConditions) {
-      // Dedstructure the condition from the array to get the 3 positions
+      // Destructure the condition from the array to get the 3 positions
       // assign these positions to a, b, and c
       const [a, b, c] = condition
 
@@ -148,6 +151,12 @@ function gameController(
         return true
       }
     }
+    // Check for a Tie state
+    const isTie = currentBoard.every((cell) => cell.getValue() !== "")
+
+    if (isTie) {
+      return "TIE"
+    }
     // if no win state has been found. Keep going.
     return false
   }
@@ -159,6 +168,9 @@ function gameController(
       if (checkWinState()) {
         console.log(`${currentPlayer().name} wins!`)
         board.printBoard()
+      } else if (checkWinState() === "TIE") {
+        console.log("It's a tie!")
+        board.clearBoard()
       } else {
         nextTurn()
         printBoardRound()
@@ -192,7 +204,9 @@ const screenController = (playerOne, playerTwo) => {
     const activePlayer = game.currentPlayer()
 
     // Update display for players turn
-    if (game.checkWinState()) {
+    if (game.checkWinState() === "TIE") {
+      playerTurnDiv.textContent = "It's a TIE!"
+    } else if (game.checkWinState()) {
       playerTurnDiv.textContent = `${activePlayer.name} wins!`
     } else {
       playerTurnDiv.textContent = `${activePlayer.name}'s turn.`
